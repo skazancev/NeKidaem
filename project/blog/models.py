@@ -12,7 +12,7 @@ class PostManager(models.Manager):
 
 
 class Post(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='posts')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='posts', verbose_name='Пользователь')
     title = models.CharField(max_length=255, verbose_name='Заголовок')
     text = models.TextField(verbose_name='Текст')
     date = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
@@ -37,6 +37,9 @@ class Post(models.Model):
         return send_mail(
             'Новый пост на %s' % site.name, body, settings.DEFAULT_FROM_EMAIL, recipients, html_message=html
         )
+
+    def __str__(self):
+        return self.title
 
 
 class Subscription(models.Model):
