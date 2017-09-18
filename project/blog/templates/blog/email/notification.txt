@@ -1,0 +1,3 @@
+Новый пост "{{ post.title }} от {{ post.user.username }}
+
+Перейти к посту {% if request.is_secure %}https://{% else %}http://{% endif %}{{ site_url }}{% url 'blog:detail' post.user_id post.id %}

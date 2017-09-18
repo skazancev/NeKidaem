@@ -30,9 +30,9 @@ class Post(models.Model):
         return list(filter(None, emails))
 
     def send_notification(self):
-        html = render_to_string('blog/email/notification.txt', context={'post': self})
-        body = render_to_string('blog/email/notification.html', context={'post': self})
         site = Site.objects.get_current()
+        html = render_to_string('blog/email/notification.txt', context={'post': self, 'site_url': site.domain})
+        body = render_to_string('blog/email/notification.html', context={'post': self, 'site_url': site.domain})
         recipients = self.get_subscriber_emails()
         return send_mail(
             'Новый пост на %s' % site.name, body, settings.DEFAULT_FROM_EMAIL, recipients, html_message=html
