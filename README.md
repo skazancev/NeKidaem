@@ -12,6 +12,11 @@
 - Изменение содержания лент подписчиков (и рассылка уведомлений) должно происходить как при стандартной публикации поста пользователем через интерфейс сайта, так при добавлении/удалении поста через админку.
 
 # Установка
-`pip install -r requirements.txt`
-`cd project/static`
-`npm i`
+`pip install -r requirements.txt` <br>
+`cd project/static` <br>
+`npm i` <br>
+
+Настроить базу данных Postgresql
+
+# Запуск
+`python manage.py runserver`
