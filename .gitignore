@@ -1,0 +1,6 @@
+*.sqlite3
+venv
+media
+*.pyc
+local.py
+node_modules

@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load blog_tags %}
+{% block title %}{{ object.title }}{% endblock %}
+{% block content %}
+    <div class="blog-header">
+        <h1 class="blog-title">{{ object.title }}</h1>
+        {% if request.user.id != object.user_id %}
+            {% if object.id|is_read:request.user.id %}
+                <span class="badge badge-secondary">Прочитано</span>
+            {% else %}
+                <a href="" class="btn btn-info mark_read" data-post="{{ object.id }}">Отметить прочитанным</a>
+            {% endif %}
+        {% else %}
+            <form class="post_delete" action="{% url 'blog:delete' object.id %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Удалить</button>
+            </form>
+        {% endif %}
+    </div>
+    <p>{{ object.text }}</p>
+{% endblock %}
+{% block extra_js %}
+    <script>
+        $(document).ready(function () {
+            $('.post_delete').submit(function (e) {
+                if (!confirm('Вы точно хотите удалить пост "{{ object.title }}"?')) {
+                    return false;
+                }
+            })
+        })
+    </script>
+{% endblock %}

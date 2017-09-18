@@ -1,0 +1,13 @@
+{% load blog_tags %}
+<div class="blog-post">
+    <h2 class="blog-post-title"><a href="{% url 'blog:detail' post.user_id post.id %}">{{ post.title }}</a></h2>
+    {% if request.user.id != post.user_id %}
+        {% if post.id in read %}
+            <span class="badge badge-secondary">Прочитано</span>
+        {% else %}
+            <span class="badge badge-info mark_read" data-post="{{ post.id }}">Отметить прочитанным</span>
+        {% endif %}
+    {% endif %}
+    <p class="blog-post-meta">{{ post.date }} by <a href="{% url 'blog:user' post.user_id %}">{{ post.user.username }}</a></p>
+    <p>{{ post.text|truncatewords:80 }}</p>
+</div>

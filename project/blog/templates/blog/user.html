@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load blog_tags %}
+{% block title %}{{ object.username }}{% endblock %}
+{% block content %}
+    <div class="blog-header">
+        <h1 class="blog-title">Блог пользователя {{ object.username }}</h1>
+        {% if request.user.id != object.id %}
+            {% if request.user|is_subscribed:object %}
+                <a href="" class="subscribe btn btn-light">Подписан</a>
+            {% else %}
+                <a href="" class="subscribe btn btn-primary">Подписаться</a>
+            {% endif %}
+        {% endif %}
+    </div>
+    {% include 'blog/post_list.html' with posts=posts %}
+{% endblock %}
+
+{% block extra_js %}
+    <script>
+        $(document).ready(function (e) {
+            $('.subscribe').click(function (e) {
+                e.preventDefault();
+                var self = this;
+                $.ajax({
+                    url: '{% url 'blog:subscribe' %}',
+                    type: 'post',
+                    data: {pk: '{{ object.id }}'},
+                    success: function (data) {
+                        if (data.status === 'ok') {
+                            $(self).text(data.subscribed ? 'Подписан' : 'Подписаться');
+                            $(self).toggleClass('btn-light btn-primary')
+                        }
+                    }
+                })
+            })
+        })
+    </script>
+{% endblock %}
